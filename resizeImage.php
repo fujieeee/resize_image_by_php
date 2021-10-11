@@ -1,37 +1,41 @@
 <?php
 
 // ファイルパスは固定
-const IMAGE_PATH = __DIR__ . '/images/1500x1800.jpeg';
-const RESIZE_WIDTH = 1500;
-const RESIZE_HEIGHT = 2000;
-const RESIZE_FILE_NAME = "1500x2000";
+const IMAGE_PATH = __DIR__ . '/images/target.jpeg';
+const RESIZE_WIDTH = 20;
+const RESIZE_HEIGHT = 20;
+const RESIZE_FILE_NAME = "after";
 
-list($width, $height) = getimagesize(IMAGE_PATH); // 元の画像名を指定してサイズを取得
+// 元の画像名を指定してサイズを取得
+list($width, $height) = getimagesize(IMAGE_PATH);
 
 //画像オブジェクトを返却
 $baseImage = @imagecreatefromjpeg(IMAGE_PATH);
 
+$afterWidth = $width + (RESIZE_WIDTH * 2);
+$afterHeight = $height + (RESIZE_HEIGHT * 2);
+
 // サイズを指定して余白画像を作成
-$backgroundImg = imagecreatetruecolor(RESIZE_WIDTH, RESIZE_HEIGHT);
+$backgroundImg = imagecreatetruecolor($afterWidth, $afterHeight);
 $backgroundColor = imagecolorallocate($backgroundImg, 255, 255, 255);
 // 白の背景を作成
 imagefilledrectangle(
     $backgroundImg,
     0,
     0,
-    RESIZE_WIDTH,
-    RESIZE_HEIGHT,
+    $afterWidth,
+    $afterHeight,
     $backgroundColor
 );
 
 imagecopy(
     $backgroundImg,
     $baseImage,
-    10,
-    100,
+    RESIZE_WIDTH,
+    RESIZE_HEIGHT,
     0,
     0,
-    $width - 20,
+    $width,
     $height
 );
 
